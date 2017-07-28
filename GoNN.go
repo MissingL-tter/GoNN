@@ -1,8 +1,13 @@
 package GoNN
 
+import (
+	"math/rand"
+	"time"
+)
+
 // Network defines the structure of the network
 type Network struct {
-	Layers  [][]float64
+	Biases  [][]float64
 	Weights [][]float64
 }
 
@@ -12,23 +17,40 @@ type Network struct {
 func CreateNetwork(inputNodes int, hiddenLayers int, hiddenNodes []int, outputNodes int) *Network {
 
 	// Init layers and fill with for the number of nodes at that layer
-	layers := make([][]float64, hiddenLayers+2)
+	biases := make([][]float64, hiddenLayers+2)
 
-	layers[0] = make([]float64, inputNodes)
-	layers[len(layers)-1] = make([]float64, outputNodes)
+	biases[0] = make([]float64, inputNodes)
+	biases[len(biases)-1] = make([]float64, outputNodes)
 
 	for i := range hiddenNodes {
-		layers[i+1] = make([]float64, hiddenNodes[i])
+		biases[i+1] = make([]float64, hiddenNodes[i])
 	}
 
 	// Init weights and fill with weights for each node at each layer
-	weights := make([][]float64, len(layers)-1)
+	weights := make([][]float64, len(biases)-1)
 
 	for i := range weights {
-		weights[i] = make([]float64, len(layers[i])*len(layers[i+1]))
+		weights[i] = make([]float64, len(biases[i])*len(biases[i+1]))
 	}
 
-	return &Network{layers, weights}
+	return &Network{biases, weights}
+}
+
+// Init initializes the network with normally distributed biases
+func (n Network) Init() {
+
+	rand.Seed(time.Now().Unix())
+
+	for i := range n.Biases {
+		if i != 0 {
+			for j := range n.Biases[i] {
+				n.Biases[i][j] = rand.NormFloat64()
+			}
+			for j := range n.Weights[i-1] {
+				n.Weights[i-1][j] = rand.NormFloat64()
+			}
+		}
+	}
 }
 
 func sigmoid(z []float64) {
