@@ -3,7 +3,7 @@ package GoNN
 // Network defines the structure of the network
 type Network struct {
 	Layers  [][]float64
-	Weights [][][]float64
+	Weights [][]float64
 }
 
 // CreateNetwork returns a Network struct.
@@ -22,14 +22,10 @@ func CreateNetwork(inputNodes int, hiddenLayers int, hiddenNodes []int, outputNo
 	}
 
 	// Init weights and fill with weights for each node at each layer
-	weights := make([][][]float64, len(layers)-1)
+	weights := make([][]float64, len(layers)-1)
 
 	for i := range weights {
-		weights[i] = make([][]float64, len(layers[i]))
-
-		for j := range weights[i] {
-			weights[i][j] = make([]float64, len(layers[i+1]))
-		}
+		weights[i] = make([]float64, len(layers[i])*len(layers[i+1]))
 	}
 
 	return &Network{layers, weights}
