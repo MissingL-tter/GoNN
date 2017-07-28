@@ -45,8 +45,8 @@ func sigmoid(z []float64) {
 
 func forwardPropagate(n Network) {
 
-	weights := n.Weights
-	layers := n.Layers
+	// weights := n.Weights
+	// layers := n.Layers
 
 	// for i := range weights {
 	// 	for j := range weights[i] {
