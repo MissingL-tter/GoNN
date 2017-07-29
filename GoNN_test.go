@@ -7,7 +7,7 @@ import (
 
 func TestNetworkStruct(t *testing.T) {
 
-	n := CreateNetwork(2, 2, []int{2, 2}, 2)
+	n := CreateNetwork(2, 1, []int{1}, 1)
 	n.InitDebug()
 
 	for i := range n.Weights {
@@ -49,7 +49,7 @@ func TestNetworkStruct(t *testing.T) {
 
 func TestForwardPropagate(t *testing.T) {
 
-	n := CreateNetwork(2, 2, []int{2, 2}, 2)
+	n := CreateNetwork(2, 1, []int{1}, 1)
 	n.InitDebug()
 
 	for i := range n.Biases[0] {
