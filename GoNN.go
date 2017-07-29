@@ -77,6 +77,7 @@ func sigmoid(z float64) float64 {
 }
 
 // ForwardPropagate takes some input and processes it through the network to return an output
+// Basic concept implemented
 func (n Network) ForwardPropagate() []float64 {
 
 	input := n.Biases[0]
