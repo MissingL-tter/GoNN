@@ -1,6 +1,7 @@
 package GoNN
 
 import (
+	"math"
 	"math/rand"
 	"time"
 )
@@ -36,7 +37,23 @@ func CreateNetwork(inputNodes int, hiddenLayers int, hiddenNodes []int, outputNo
 	return &Network{biases, weights}
 }
 
-// Init initializes the network with normally distributed biases
+// InitDebug initializes the network where all biases = 1 and all weights = 2
+func (n Network) InitDebug() {
+
+	for i := range n.Biases {
+		if i != 0 {
+			for j := range n.Biases[i] {
+				n.Biases[i][j] = 1
+			}
+			for j := range n.Weights[i-1] {
+				n.Weights[i-1][j] = 2
+			}
+		}
+	}
+
+}
+
+// Init initializes the network with normally distributed biases adn weights
 func (n Network) Init() {
 
 	rand.Seed(time.Now().Unix())
@@ -53,23 +70,30 @@ func (n Network) Init() {
 	}
 }
 
-func sigmoid(z []float64) {
+func sigmoid(z float64) float64 {
 
-	// output of sigmoid neuron is
-	// where z is the input vector
-	//x := 1/1 + math.Exp(-z)
+	return 1 / (1 + math.Exp(-z))
 
 }
 
-func forwardPropagate(n Network) {
+// ForwardPropagate takes some input and processes it through the network to return an output
+func (n Network) ForwardPropagate() []float64 {
 
-	// weights := n.Weights
-	// layers := n.Layers
+	input := n.Biases[0]
 
-	// for i := range weights {
-	// 	for j := range weights[i] {
+	for l := 1; l < len(n.Biases); l++ {
+		var output []float64
+		for b := 0; b < len(n.Biases[l]); b++ {
+			sum := 0.0
+			for i := range input {
+				idx := len(input)*b + i
+				sum += input[i] * n.Weights[l-1][idx]
+			}
+			output = append(output, sigmoid(sum+n.Biases[l][b]))
+		}
+		input = output
+	}
 
-	// 	}
-	// }
+	return input
 
 }
