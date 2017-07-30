@@ -70,15 +70,9 @@ func (n Network) Init() {
 	}
 }
 
-func sigmoid(z float64) float64 {
-
-	return 1 / (1 + math.Exp(-z))
-
-}
-
-// ForwardPropagate takes some input and processes it through the network to return an output
+// ForwardProp takes some input and processes it through the network to return an output
 // Basic concept implemented
-func (n Network) ForwardPropagate() []float64 {
+func (n Network) ForwardProp() []float64 {
 
 	input := n.Biases[0]
 
@@ -96,5 +90,27 @@ func (n Network) ForwardPropagate() []float64 {
 	}
 
 	return input
+
+}
+
+// BackProp takes some output compared to what was expected by the input and uses stochastic gradient descent to minimize the loss function
+func (n Network) BackProp() []float64 {
+	return []float64{0.0, 0.0}
+}
+
+// Stochastic Gradient Descent
+func sgd() {
+
+}
+
+func sigmoid(z float64) float64 {
+
+	return 1 / (1 + math.Exp(-z))
+
+}
+
+func sigPrime(z float64) float64 {
+
+	return sigmoid(z) * (1 - sigmoid(z))
 
 }
