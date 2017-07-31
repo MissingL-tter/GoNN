@@ -1,5 +1,5 @@
 # GoNN
-Go-Neural-Networks is a minimalist machine learning library currently in development for Go.
+Go Neural Networks is a minimalist machine learning library currently in development for Go.
 
 
 ## Objective
